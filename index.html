@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CityAccess</title>
+    <meta charset="utf-8">
+    <link href="css/nycD3.css" rel="stylesheet" type="text/css">
+    <link href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300,200,600,900' rel='stylesheet' type='text/css'>
+</head> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+    <div id="topBar">
+        <div id="topBarContent">
+            <div id="topBarText">
+                I can walk  
+                <input id="distBar" type="range" name="distance" min="0" max="2" step="0.1" value="0.5"> <label id="distText" for="distance">0.5</label> miles 
+            </div>
+        </div>
+        
+        <div id="helpMenu"> 
+            <input type="checkbox" id="helpCheckbox" onChange="helpClick(false)">
+            <label for="helpCheckbox">
+                <div id="helpIcon">HELP</div>
+            </label>
+
+        </div>
+    </div>
+    <div id="helpDiv">
+        <div id="helpText">
+            Drag the marker to a spot in New York City. Use the slider to select how far you want to walk. <br> <br>
+            The shaded regions indicate where you can reach by walking and taking a single Subway ride (no transfers). <br> <br>
+            <div id="gotIt" onClick="helpClick(true)">
+                GOT IT
+            </div>
+            <div id="thanksText">
+                <br>
+                Thanks to: leafletJS, D3.js, OpenStreetMap, CartoDB, JSONlab
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <script src="cityaccess.js"></script>
+</body>
+</html>
