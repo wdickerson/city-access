@@ -10,6 +10,10 @@ L.tileLayer(
 var marker = new L.marker([40.740693, -74.004536], {draggable:'true'});
 map.addLayer(marker);
 var markerD3;// Will initialize in d3.json
+var tooltip = d3.select('.leaflet-marker-pane')
+  .append('div')
+  .attr('class','tooltip')
+  .style('display','none');
 
 // Add an SVG element to Leaflet’s overlay pane
 var width = 2000, height = 1500;
@@ -70,7 +74,9 @@ d3.json("nycPostalCodes.json", function(error, nyb) {
                      .enter();
         
         statG = systemG.append("g")                                 
-                    .attr("class","updateTransform");
+                    .attr("class","stationPie updateTransform")
+                    .on('mouseover', function(d) { showTooltip(d); })
+                    .on('mouseout', function(d) { hideTooltip(); });
                     // the "transform" attribute is added in findDepartureStops()
         
         drawPies(4,0,1);
@@ -103,6 +109,33 @@ d3.json("nycPostalCodes.json", function(error, nyb) {
 	});
         
 });
+
+function showTooltip(d) {
+  var left = map.latLngToLayerPoint( 
+    new L.LatLng(d.geometry.coordinates[1],
+    d.geometry.coordinates[0])).x;
+  var top = map.latLngToLayerPoint( 
+    new L.LatLng
+    (d.geometry.coordinates[1],
+     d.geometry.coordinates[0])).y;
+  var name = d.properties.name;
+  
+  tooltip.style('display', 'block')
+    .html(name.replace(/\s/g, '&nbsp;').replace('-', '&#8209;'))
+    .style('top', (top + 10) + 'px')
+    .style('left', (left + 10) + 'px')
+    .append('div')
+    .attr('class','tipLines')
+    .selectAll('line-imgs')
+    .data(d.properties.serves).enter()
+    .append('img')
+    .attr('src',function(d) { return 'lineImages/' + d + '.png';} )
+    .attr('width','20');
+}
+
+function hideTooltip() {
+  tooltip.style('display', 'none');
+}
 
 // This happens when you zoom but not when you pan
 var zoomLookup = [1,1,1,1,1,1,1,1,1,1,1.5,2,4,4,6,6,6,6,6,6,6];
@@ -316,17 +349,15 @@ function arr0DistRadius(d){
 }
     
 function helpClick(gotIt){
-    //alert("wha");
     var yo = document.getElementById("helpCheckbox").checked;
     
     document.getElementById("helpDiv").style.display = "none";
     document.getElementById("helpMenu").style.backgroundColor = "inherit";
-    document.getElementById("helpMenu").style.color = "inherit";
+    document.getElementById("helpMenu").style.color = "darkgray";
     
     if(yo==true && gotIt==false)
     {
         document.getElementById("helpDiv").style.display = "block";
-        document.getElementById("helpMenu").style.backgroundColor = "#0d2b53";
     }
     if(gotIt==true)
         document.getElementById("helpCheckbox").checked = false; 
