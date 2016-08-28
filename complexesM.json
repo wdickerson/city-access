@@ -506,8 +506,7 @@
 				"url": "http:\/\/www.mta.info\/nyct\/subway\/index.html",
 				"serves": [
 					"x7",
-					"N",
-					"W"
+					"N"
 				],
 				"servesIndex": [0,7,17,23],
 				"ID": 24,
