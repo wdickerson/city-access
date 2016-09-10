@@ -1,9 +1,16 @@
+const centers = {
+  //nyc: [40.740693, -74.004536],
+  nyc: [40.7128, -74.0059],
+  dc: [38.9072, -77.0369]
+}
+
 // Initialize a map with leaflet
-var map = L.map('map', { 
-  center: [40.740693, -74.004536], 
+const map = L.map('map', { 
+  center: centers.dc, 
   zoom: 11,
   maxZoom: 18,
-  inertia: false,
+  doubleClickZoom: false,
+  //inertia: false,
   tap: true
 });
 L.tileLayer(
@@ -13,43 +20,52 @@ L.tileLayer(
   }).addTo(map);
   
 let willWalk = mm(0.5);
-let walkCircles = []; 
-let stops = [];
+let walkCircles = {};
+let stops = {};
 let marker;
 let markerCircle;
-let stationPiesD3;
+let stationPiesD3 = {};
 
-d3.json('complexesM.json', function(error, mta) {
-  stops = mta.features.map(o => {
-    o.properties.latlng = L.latLng(o.geometry.coordinates.reverse());
-    return o.properties;
-  }); 
-
-  walkCircles = stops.map(o => L.circle(o.latlng, 100, 
+marker = L.marker(centers.dc, { draggable: 'true' })
+  .addTo(map)
+  .on('drag', onDrag)
+  .on('dragend', updateWalkingCircles); 
+markerCircle = L.circle(centers.dc, mm(0.5), 
+  { 
+    className: 'marker-circle',
+    stroke: false,
+    fillOpacity: 1
+  }).addTo(map);
+  
+function focusMap(newCity) {
+  //alert(newCity);
+  city = newCity
+  map.panTo(centers[city]);
+  //map.setZoom(11);
+  marker.setLatLng(centers[city]);
+  markerCircle.setLatLng(centers[city]);
+  onZoom();
+  updateWalkingCircles();
+}
+  
+function addWalkCircles(stops) {
+  const walkCirclesTemp = stops.map(o => L.circle(o.latlng, 100, 
     { 
       className: 'walk-circle', 
       stroke: false,
       fillOpacity: 1
     }));
-  L.featureGroup(walkCircles).addTo(map);
+  L.featureGroup(walkCirclesTemp).addTo(map);
+  return walkCirclesTemp
+}
 
-  marker = L.marker([40.740693, -74.004536], { draggable: 'true' })
-    .addTo(map)
-    .on('drag', onDrag)
-    .on('dragend', updateWalkingCircles); 
-  markerCircle = L.circle([40.740693, -74.004536], mm(0.5), 
-    { 
-      className: 'marker-circle',
-      stroke: false,
-      fillOpacity: 1
-    }).addTo(map);
-
+function addStationPies(stops, city) {
   const stationPies = stops.map(o => {
     const popupContent = document.createElement("div");
     const popupName = document.createElement("h1");
     const popupLines = o.serves.map(line => { 
       const temp = new Image(20, 20);
-      temp.src = 'lineImages/' + line + '.png';
+      temp.src = 'lineImages/' + city + '/'+ line + '.png';
       return temp;
     })
     
@@ -64,7 +80,7 @@ d3.json('complexesM.json', function(error, mta) {
     const tempIcon = L.divIcon({
       className: 'stop-icon', 
       iconSize: 15,
-      html: '<svg class="stop-svg" viewBox="0 0 100 100"></svg>'
+      html: '<svg class="stop-svg stop-' + city + '" viewBox="0 0 100 100" width="20%"></svg>'
     });
 
     return L.marker(o.latlng, { icon: tempIcon })
@@ -72,26 +88,86 @@ d3.json('complexesM.json', function(error, mta) {
       .on('mouseout', () => { map.closePopup(); });
   })
   L.featureGroup(stationPies).addTo(map);
-  stationPiesD3 = d3.selectAll('.stop-svg').data(stops);
-  makePies();
-  updateWalkingCircles();
-  //onDrag();
-  onZoom();
-}); // end of d3.json
+  const stationPiesTemp = d3.selectAll('.stop-' + city).data(stops);
+  makePies(stationPiesTemp);
+  return stationPiesTemp;
+}
 
-function makePies() {
+function makePies(stationPiesD) {
   const arc = d3.arc()
     .innerRadius(0)
     .outerRadius(50)
     .startAngle(0);    
 
-  stationPiesD3.selectAll('slices')
+  stationPiesD.selectAll('slices')
     .data(d => d.colors).enter()
     .append('path')
     .attr('transform', 'translate(50,50)')
     .attr('d', (d, i, j) => arc({ endAngle: 2 * Math.PI * (1 - i / j.length)}))
     .attr('fill', d => d)
 }
+
+// Get DC stops
+d3.json('complexesDC.json', function(error, mta) {
+  const makeServesIndex = {
+    red: 1,
+    orange: 2,
+    yellow: 3,
+    green: 4,
+    blue: 5,
+    silver: 6
+  }
+  stops.dc = mta.features.map(o => {
+    const t = {}
+    t.name = o.properties.NAME;
+    t.serves = o.properties.LINE.split(", ");
+    t.servesIndex = t.serves.map(c => makeServesIndex[c]);
+    t.colors = t.serves;
+    t.latlng = L.latLng(o.geometry.coordinates.reverse());
+    return t;
+  }); 
+
+  walkCircles.dc = addWalkCircles(stops.dc);
+  stationPiesD3.dc = addStationPies(stops.dc, 'dc');
+  //console.log(stationPiesD3_DC);
+
+  //stops = stopsDC;
+  //walkCircles = walkCirclesDC;
+  //stationPiesD3 = stationPiesD3_DC;
+  
+  updateWalkingCircles();
+  onZoom();
+  
+}); // end of d3.json
+
+// Get NYC stops
+d3.json('complexesNYC.json', function(error, mta) {
+  stops.nyc = mta.features.map(o => {
+    o.properties.latlng = L.latLng(o.geometry.coordinates.reverse());
+    return o.properties;
+  }); 
+
+  walkCircles.nyc = addWalkCircles(stops.nyc);
+  stationPiesD3.nyc = addStationPies(stops.nyc, 'nyc');
+}); // end of d3.json
+
+let city;
+function findNearestCity() {
+  //alert('in find nearest');
+  // if NYC
+  if (marker.getLatLng().distanceTo(L.latLng(centers.nyc)) < mm(50)) {
+    city = 'nyc';
+//    stops = stopsNYC;
+//    walkCircles = walkCirclesNYC;
+//    stationPiesD3 = stationPiesD3_NYC;
+  } else {
+    city = 'dc'
+//    stops = stopsDC;
+//    walkCircles = walkCirclesDC;
+//    stationPiesD3 = stationPiesD3_DC;
+  }
+}
+
 
 // This happens as soon as the distance slider is moved
 document.getElementById('distBar').addEventListener('input', distChange);
@@ -118,15 +194,16 @@ function onDrag() {
 const visited = [];
 const walkFromLine = []; 
 function updateWalkingCircles() {
+  findNearestCity();
   walkFromLine.fill(0);
   while (visited.length) {
     visited.pop().setRadius(0);
   }
     
-  walkCircles.forEach((o, i) => {
+  walkCircles[city].forEach((o, i) => {
   
     if ( o.getLatLng().distanceTo(marker.getLatLng()) <= willWalk ) {
-      stops[i].servesIndex.forEach(l => {
+      stops[city][i].servesIndex.forEach(l => {
         walkFromLine[l] = Math.max(
           walkFromLine[l] || 0, 
           willWalk - o.getLatLng().distanceTo(marker.getLatLng())
@@ -137,8 +214,9 @@ function updateWalkingCircles() {
   })
   
   walkFromLine[0]=0;
-  walkCircles.forEach((o, i) => {
-    const newWalkRadius = Math.max(...stops[i].servesIndex.map(l => walkFromLine[l] || 0));
+  walkCircles[city].forEach((o, i) => {
+    
+    const newWalkRadius = Math.max(...stops[city][i].servesIndex.map(l => walkFromLine[l] || 0));
     
     visited.push(o);
     o.setRadius(newWalkRadius);
@@ -150,7 +228,7 @@ map.on('zoomend', onZoom);
 const zoomLookup = ['20%', '20%','20%','20%','20%','20%','20%','20%','20%',
   '20%','20%','20%','20%','40%','40%','40%','40%','100%','100%']
 function onZoom(e) {
-  stationPiesD3.attr('width', zoomLookup[map.getZoom()])
+  stationPiesD3[city].attr('width', zoomLookup[map.getZoom()])
 }
 
 function helpClick(){

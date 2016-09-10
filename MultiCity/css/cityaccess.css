@@ -1,4 +1,4 @@
-/* line 5, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,45 +20,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
@@ -76,7 +76,7 @@ body {
   margin: 10px 10px 0 0;
   display: flex;
   flex-direction: column;
-  width: 21.5rem;
+  width: 18.5rem;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
   border-radius: 4px;
   background-color: white;
@@ -97,24 +97,34 @@ body {
 }
 
 /* line 33, ../scss/cityaccess.scss */
-#helpMenu {
-  padding-right: .8rem;
+#top-menu {
   color: darkgray;
   font-size: .8rem;
+  height: 1.2rem;
+  display: flex;
+  justify-content: space-between;
 }
 
-/* line 38, ../scss/cityaccess.scss */
+/* line 40, ../scss/cityaccess.scss */
+.menu-button {
+  cursor: pointer;
+  text-decoration: underline;
+  flex: 1;
+  text-align: center;
+}
+
+/* line 46, ../scss/cityaccess.scss */
 #helpCheckbox {
   display: none;
 }
 
-/* line 41, ../scss/cityaccess.scss */
+/* line 49, ../scss/cityaccess.scss */
 #helpIcon {
   text-decoration: underline;
   cursor: pointer;
 }
 
-/* line 45, ../scss/cityaccess.scss */
+/* line 53, ../scss/cityaccess.scss */
 #helpDiv {
   padding: 0 .8rem .8rem .8rem;
   color: darkgray;
@@ -123,26 +133,26 @@ body {
   display: none;
 }
 
-/* line 52, ../scss/cityaccess.scss */
+/* line 60, ../scss/cityaccess.scss */
 #gotIt {
   cursor: pointer;
   color: dimgray;
   text-decoration: underline;
 }
 
-/* line 57, ../scss/cityaccess.scss */
+/* line 65, ../scss/cityaccess.scss */
 #map {
   z-index: 1;
   width: 100vw;
   height: 100vh;
 }
 
-/* line 62, ../scss/cityaccess.scss */
+/* line 70, ../scss/cityaccess.scss */
 .stationPie {
   cursor: auto;
 }
 
-/* line 66, ../scss/cityaccess.scss */
+/* line 74, ../scss/cityaccess.scss */
 .tooltip {
   position: absolute;
   padding: .5rem .8rem .6rem .8rem;
@@ -154,34 +164,34 @@ body {
   border-radius: 4px;
 }
 
-/* line 76, ../scss/cityaccess.scss */
+/* line 84, ../scss/cityaccess.scss */
 .tipLines {
   display: flex;
   align-items: flex-start;
 }
 
-/* line 80, ../scss/cityaccess.scss */
+/* line 88, ../scss/cityaccess.scss */
 #walk {
   stroke: #498be3;
   fill: #498be3;
   opacity: .2;
 }
 
-/* line 85, ../scss/cityaccess.scss */
+/* line 93, ../scss/cityaccess.scss */
 #boroughs {
   stroke-width: 0px;
   fill: lightskyblue;
   fill-opacity: 0.08;
 }
 
-/* line 91, ../scss/cityaccess.scss */
+/* line 99, ../scss/cityaccess.scss */
 .borough {
   stroke-width: 0px;
   fill: lightskyblue;
   fill-opacity: .3;
 }
 
-/* line 96, ../scss/cityaccess.scss */
+/* line 104, ../scss/cityaccess.scss */
 .stop {
   stroke-width: 0px;
   fill: black;
@@ -189,12 +199,12 @@ body {
   fill-opacity: 1;
 }
 
-/* line 103, ../scss/cityaccess.scss */
+/* line 114, ../scss/cityaccess.scss */
 .stop-icon {
   position: relative;
   text-align: center;
 }
-/* line 107, ../scss/cityaccess.scss */
+/* line 119, ../scss/cityaccess.scss */
 .stop-icon .stop-svg {
   position: absolute;
   top: 50%;
@@ -202,23 +212,23 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* line 114, ../scss/cityaccess.scss */
+/* line 126, ../scss/cityaccess.scss */
 .leaflet-overlay-pane {
   opacity: .2;
 }
 
-/* line 117, ../scss/cityaccess.scss */
+/* line 129, ../scss/cityaccess.scss */
 .walk-circle {
   stroke-width: 0px;
   fill-opacity: 1;
 }
 
-/* line 121, ../scss/cityaccess.scss */
+/* line 133, ../scss/cityaccess.scss */
 #station-pies-svg {
   opacity: 1;
 }
 
-/* line 124, ../scss/cityaccess.scss */
+/* line 136, ../scss/cityaccess.scss */
 .marker-circle {
   stroke-width: 1px;
   stroke: black;
