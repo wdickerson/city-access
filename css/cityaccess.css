@@ -69,132 +69,76 @@ body {
 }
 
 /* line 8, ../scss/cityaccess.scss */
-#topContainer {
+.top-container {
   position: fixed;
   right: 0;
   z-index: 10;
   margin: 10px 10px 0 0;
+  padding: 0 10px 0 10px;
   display: flex;
   flex-direction: column;
-  width: 21.5rem;
+  min-width: 17.5rem;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
   border-radius: 4px;
   background-color: white;
 }
 
-/* line 20, ../scss/cityaccess.scss */
-#topBar {
-  height: 2.5rem;
-  font-weight: 400;
-  line-height: 2.5rem;
+/* line 21, ../scss/cityaccess.scss */
+.top-text {
+  height: 2rem;
+  line-height: 2rem;
+}
+
+/* line 25, ../scss/cityaccess.scss */
+.top-menu {
+  color: darkgray;
+  height: 1.5rem;
   display: flex;
 }
 
-/* line 29, ../scss/cityaccess.scss */
-#topBarText {
-  width: 18rem;
-  padding-left: .8rem;
+/* line 30, ../scss/cityaccess.scss */
+.menu-button {
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
 }
 
-/* line 33, ../scss/cityaccess.scss */
-#helpMenu {
-  padding-right: .8rem;
-  color: darkgray;
-  font-size: .8rem;
+/* line 35, ../scss/cityaccess.scss */
+.about-button {
+  text-decoration: underline;
 }
 
 /* line 38, ../scss/cityaccess.scss */
-#helpCheckbox {
-  display: none;
-}
-
-/* line 41, ../scss/cityaccess.scss */
-#helpIcon {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-/* line 45, ../scss/cityaccess.scss */
-#helpDiv {
-  padding: 0 .8rem .8rem .8rem;
+.about-div {
+  position: relative;
+  width: 17.5rem;
+  padding-bottom: .8rem;
   color: darkgray;
   font-size: .85rem;
   line-height: 1.2rem;
   display: none;
 }
 
-/* line 52, ../scss/cityaccess.scss */
-#gotIt {
+/* line 47, ../scss/cityaccess.scss */
+.about-checkbox {
+  display: none;
+}
+
+/* line 50, ../scss/cityaccess.scss */
+.got-it-button {
   cursor: pointer;
   color: dimgray;
   text-decoration: underline;
 }
 
-/* line 57, ../scss/cityaccess.scss */
+/* line 56, ../scss/cityaccess.scss */
 #map {
   z-index: 1;
   width: 100vw;
   height: 100vh;
 }
 
-/* line 62, ../scss/cityaccess.scss */
-.stationPie {
-  cursor: auto;
-}
-
-/* line 66, ../scss/cityaccess.scss */
-.tooltip {
-  position: absolute;
-  padding: .5rem .8rem .6rem .8rem;
-  background: white;
-  font-size: 1.2em;
-  line-height: 1.8rem;
-  z-index: 300;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-  border-radius: 4px;
-}
-
-/* line 76, ../scss/cityaccess.scss */
-.tipLines {
-  display: flex;
-  align-items: flex-start;
-}
-
-/* line 80, ../scss/cityaccess.scss */
-#walk {
-  stroke: #498be3;
-  fill: #498be3;
-  opacity: .2;
-}
-
-/* line 85, ../scss/cityaccess.scss */
-#boroughs {
-  stroke-width: 0px;
-  fill: lightskyblue;
-  fill-opacity: 0.08;
-}
-
-/* line 91, ../scss/cityaccess.scss */
-.borough {
-  stroke-width: 0px;
-  fill: lightskyblue;
-  fill-opacity: .3;
-}
-
-/* line 96, ../scss/cityaccess.scss */
-.stop {
-  stroke-width: 0px;
-  fill: black;
-  opacity: 1;
-  fill-opacity: 1;
-}
-
-/* line 103, ../scss/cityaccess.scss */
-.stop-icon {
-  position: relative;
-  text-align: center;
-}
-/* line 107, ../scss/cityaccess.scss */
+/* line 61, ../scss/cityaccess.scss */
 .stop-icon .stop-svg {
   position: absolute;
   top: 50%;
@@ -202,25 +146,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* line 114, ../scss/cityaccess.scss */
+/* line 67, ../scss/cityaccess.scss */
 .leaflet-overlay-pane {
   opacity: .2;
-}
-
-/* line 117, ../scss/cityaccess.scss */
-.walk-circle {
-  stroke-width: 0px;
-  fill-opacity: 1;
-}
-
-/* line 121, ../scss/cityaccess.scss */
-#station-pies-svg {
-  opacity: 1;
-}
-
-/* line 124, ../scss/cityaccess.scss */
-.marker-circle {
-  stroke-width: 1px;
-  stroke: black;
-  fill-opacity: 1;
 }
