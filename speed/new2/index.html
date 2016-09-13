@@ -4,6 +4,7 @@
   <title>CityAccess</title>
   <meta name="viewport" content="width=device-width">
   <link href="css/cityaccess.css" rel="stylesheet" type="text/css">
+<!--  <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css" />-->
   <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,' rel='stylesheet' type='text/css'>
 </head> 
@@ -16,17 +17,17 @@
     <div class="top-menu"> 
       <div class='menu-button' onClick='focusMap("nyc")'>NYC</div>
       <div class='menu-button' onClick='focusMap("dc")'>DC</div>
-      <div class='menu-button' onClick='focusMap("boston")'>Boston</div>
       <div class='menu-button about-button' onClick='toggleAbout()'>about</div>
     </div>
     <div id='about-div' class="about-div">
       Drag the marker to a spot on the map. Use the slider to select how far you want to walk. The shaded regions indicate where you can reach by walking and taking a single Subway ride.
-      <span class='got-it-button' onClick="toggleAbout()">Got&nbsp;it.</span>
+      <span class='got-it-button' onClick="toggleAbout()">Got it.</span>
     </div>
   </div>
   
   <div id="map"></div>
   <script src="https://d3js.org/d3.v4.min.js"></script>
+<!--  <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>-->
   <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
   <script src="cityaccess.js"></script>
 </body>

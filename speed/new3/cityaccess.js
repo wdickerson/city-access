@@ -1,7 +1,6 @@
 const centers = {
   nyc: [40.7128, -74.0059],
-  dc: [38.9072, -77.0369],
-  boston: [42.3601, -71.0589]
+  dc: [38.9072, -77.0369]
 }
 
 const map = L.map('map', { 
@@ -9,9 +8,8 @@ const map = L.map('map', {
   zoom: 11,
   maxZoom: 18,
   doubleClickZoom: false,
-  inertia: true,
-  tap: true,
-  bounceAtZoomLimits: false
+  inertia: false,
+  tap: true
 });
 L.tileLayer( 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', 
   {
@@ -43,14 +41,15 @@ const markerCircle = L.circle(centers.nyc, mm(0.5),
   
 function focusMap(newCity) {
   city = newCity
-  map.setView(centers[city], 11, { animate: true, duration: .75, easeLinearity: .005 });
+  map.panTo(centers[city]);
+  map.setZoom(11);
   marker.setLatLng(centers[city]);
   markerCircle.setLatLng(centers[city]);
   updateWalkingCircles();
 }
   
-function addWalkCircles(c) {
-  const walkCirclesTemp = stops[c].map(o => L.circle(o.latlng, 100, 
+function addWalkCircles(city) {
+  const walkCirclesTemp = stops[city].map(o => L.circle(o.latlng, 100, 
     { 
       className: 'walk-circle', 
       stroke: false,
@@ -60,57 +59,48 @@ function addWalkCircles(c) {
   return walkCirclesTemp
 }
 
-function addStationPies(c) {
-  const stationPies = stops[c].map(o => {
+function addStationPies(city) {
+  const stationPies = stops[city].map(o => {
     const tipContent = document.createElement("div");
     tipContent.innerHTML = '<h1>' + o.name + '</h1>';
     o.serves.forEach(line => { 
       const img = new Image(20, 20);
-      img.src = 'lineImages/' + c + '/'+ line + '.png';
+      img.src = 'lineImages/' + city + '/'+ line + '.png';
       tipContent.appendChild(img);
     });
     
     return L.marker(o.latlng, 
       { icon: L.divIcon({ className: 'stop-icon' }) })
-      .bindTooltip(L.tooltip().setContent(tipContent))
-      .addTo(map).getElement();
+      .bindTooltip(L.tooltip().setContent(tipContent));
   })
-
-  return d3.selectAll(stationPies)
-    .data(stops[c]).append('svg')
+  const spg = L.featureGroup(stationPies).addTo(map);
+  return d3.selectAll(spg.getLayers().map(o => o.getElement()))
+    .data(stops[city]).append('svg')
     .attr('viewBox','0 0 100 100')
     .attr('width','30%')
     .attr('class','stop-svg');
 }
 
 function makePies(stationPies) {
-  const arc = d3.arc()
-    .innerRadius(0)
-    .outerRadius(50)
-    .startAngle(0);    
-
-  stationPies.selectAll('slices')
-    .data(d => d.colors).enter()
-    .append('path')
-    .attr('transform', 'translate(50,50)')
-    .attr('d', (d, i, j) => arc({ endAngle: 2 * Math.PI * (1 - i / j.length)}))
-    .attr('fill', d => d)
+//  const arc = d3.arc()
+//    .innerRadius(0)
+//    .outerRadius(50)
+//    .startAngle(0);    
+//
+//  stationPies.selectAll('slices')
+//    .data(d => d.colors).enter()
+//    .append('path')
+//    .attr('transform', 'translate(50,50)')
+//    .attr('d', (d, i, j) => arc({ endAngle: 2 * Math.PI * (1 - i / j.length)}))
+//    .attr('fill', d => d)
 }
-
-// Get Boston stops
-d3.json('stations/boston.json', function(error, stopsJson) {
-  stops.boston = stopsJson;
-  walkCircles.boston = addWalkCircles('boston');
-  stationPiesD3.boston = addStationPies('boston');
-  makePies(stationPiesD3.boston);
-});
 
 // Get DC stops
 d3.json('stations/dc.json', function(error, stopsJson) {
   stops.dc = stopsJson;
   walkCircles.dc = addWalkCircles('dc');
-  stationPiesD3.dc = addStationPies('dc');
-  makePies(stationPiesD3.dc);
+//  stationPiesD3.dc = addStationPies('dc');
+//  makePies(stationPiesD3.dc);
 });
 
 // Get NYC stops
@@ -125,10 +115,8 @@ d3.json('stations/nyc.json', function(error, stopsJson) {
 function findNearestCity() {
   if (marker.getLatLng().distanceTo(L.latLng(centers.nyc)) < mm(100)) {
     city = 'nyc';
-  } else if (marker.getLatLng().distanceTo(L.latLng(centers.dc)) < mm(100)) {
-    city = 'dc';
   } else {
-    city = 'boston';
+    city = 'dc'
   }
 }
 
